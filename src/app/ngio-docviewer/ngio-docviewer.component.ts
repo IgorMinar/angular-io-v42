@@ -3,7 +3,8 @@ import { Http } from '@angular/http'
 import { NgioCodeExampleComponent} from '../ngio-code-example/ngio-code-example.component';
 
 const EMBEDDED_COMPONENTS = [NgioCodeExampleComponent/*NgioHeader, LiveExample, CodeTabsComponent*/];
-
+const initialDocViewerElement = document.querySelector('ngio-docviewer');
+const initialDocViewerContent = initialDocViewerElement ? initialDocViewerElement.innerHTML : '';
 
 @Component({
   selector: 'ngio-docviewer',
@@ -24,6 +25,8 @@ export class NgioDocviewerComponent implements DoCheck, OnDestroy {
               private injector: Injector) {
 
     this.hostElement = hostElementRef.nativeElement;
+    // Security: the initialDocViewerContent comes from the prerendered DOM as is considered to be secure
+    this.hostElement.innerHTML = initialDocViewerContent;
 
     for (let component of EMBEDDED_COMPONENTS) {
       const factory = componentFactoryResolver.resolveComponentFactory(component);

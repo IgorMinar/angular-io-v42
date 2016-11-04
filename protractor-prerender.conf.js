@@ -7,7 +7,7 @@ var SpecReporter = require('jasmine-spec-reporter');
 exports.config = {
   allScriptsTimeout: 11000,
   specs: [
-    './prerender-specs/chunk*.spec.js'
+    './tmp/prerender-specs/chunk*.spec.js'
   ],
   capabilities: {
     'browserName': 'chrome',
@@ -15,7 +15,7 @@ exports.config = {
     maxInstances: 10
   },
   directConnect: true,
-  baseUrl: 'http://localhost:4200/',
+  baseUrl: 'http://localhost:4201/',
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,

@@ -32,7 +32,3 @@ testem.log
 #System Files
 .DS_Store
 Thumbs.db
-
-# Prerender Generated Files
-prerender-specs/
-all-urls.json

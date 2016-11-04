@@ -1,7 +1,7 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
-const mkdirp = require('mkdirp');
+const fse = require('fs-extra');
 
 function getAllFiles(root /** string */)/** : string[] */ {
   // console.log('getAllFiles', root);
@@ -30,19 +30,22 @@ function chunkArray(arr, numChunks) {
   return chunkedArray;
 }
 
-const docsUrls = getAllFiles(path.resolve('dist/pages'))
-  .map(f => `http://localhost:4200/${path.relative('dist/pages', f)}`);
+const docsUrls = getAllFiles(path.resolve('src/assets/documents/'))
+  .map(f => `http://localhost:4201/${path.relative('src/assets/documents/', f).replace(/(index)?\.html$/, '')}`);
 const chunked = chunkArray(docsUrls, 10);
-mkdirp.sync('prerender-specs');
+
+fse.removeSync('tmp/prerender-specs');
+fse.removeSync('tmp/prerendered');
+fse.mkdirpSync('tmp/prerender-specs');
 chunked.forEach((chunk, i) => {
-  fs.writeFileSync(`prerender-specs/chunk${i}.spec.js`, `
+  fs.writeFileSync(`tmp/prerender-specs/chunk${i}.spec.js`, `
   'use strict';
   const protractor = require('protractor');
   const browser = protractor.browser;
   const url = require('url');
   const mkdirp = require('mkdirp');
   const fs = require('fs');
-  const BASE_DIR = 'dist/prerendered';
+  const BASE_DIR = 'tmp/prerendered';
   const path = require('path');
   describe('chunk ${i}', () => {
     ${JSON.stringify(chunk)}.forEach((urlToPage) => {
@@ -50,18 +53,22 @@ chunked.forEach((chunk, i) => {
         browser.get(urlToPage);
         browser.getPageSource()
           .then((source) => {
+            // TODO(i): does this error checking actually work?
             if (source.indexOf(\`Whoops. Looks like what you're looking for can't be found.\`) > -1) {
               return Promise.reject(\`404 for \${urlToPage}\`)
             }
-            let filePath = url.parse(urlToPage).path.replace(/^\\//, '');
-            console.log('mkdirp', path.resolve(BASE_DIR, /(.*)\\/.+$/gi.exec(filePath)[1]));
-            mkdirp(path.resolve(BASE_DIR, /(.*)\\/.+$/gi.exec(filePath)[1]))
-            console.log('writing to', path.resolve(BASE_DIR, filePath));
-            fs.writeFileSync(path.resolve(BASE_DIR, filePath), source, 'utf-8')
+
+            const relativeFilePath = url.parse(urlToPage).path.replace(/\\/$/, '/index').replace(/^\\//, '') + '.html';
+            const absoluteFilePath = path.resolve(BASE_DIR, relativeFilePath);
+            const absoluteDirPath = path.dirname(path.resolve(BASE_DIR, relativeFilePath));
+            console.log('mkdirp', absoluteDirPath);
+            mkdirp.sync(absoluteDirPath);
+            console.log('writing to', absoluteFilePath);
+            fs.writeFileSync(absoluteFilePath, source, 'utf-8')
           })
           .then(() => done(), err => done.fail(err))
       });
     })
   });
   `, 'utf-8');
-})
+});
