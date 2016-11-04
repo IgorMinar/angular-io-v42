@@ -1,4 +1,16 @@
-# AngularIoV42
+# angular.io v42
+
+Build instructions:
+```
+yarn install
+yarn prerender:serve &
+yarn run prod-build
+open http://localhost:4201
+```
+
+
+----------------------------------------------------------------------------------------------------------------
+
 
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.19-3.
 
