@@ -48,6 +48,8 @@ export class NgioDocviewerComponent implements DoCheck, OnDestroy {
           //   team and is considered to be safe
           this.hostElement.innerHTML = response.text();
 
+          window.scrollTo(0,0);
+
           // TODO(i): why can't I use for-of? why doesn't typescript like Map#value() iterators?
           this.embeddedComponentFactories.forEach(factory => {
             const selector = factory.selector;
