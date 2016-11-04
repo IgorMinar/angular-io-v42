@@ -9,13 +9,15 @@ Note: this is not a fully featured app. Lots of stuff is missing + CSS and image
 ## Preview
 https://angular-io-v42.firebaseapp.com/
 
-## Build instructions
+## Production Build instructions
 ```
 yarn install
 yarn prerender:serve &
 yarn run prod-build
 open http://localhost:4201
 ```
+
+For development builds use the usual `ng serve` and `ng build` commands.
 
 
 ----------------------------------------------------------------------------------------------------------------
