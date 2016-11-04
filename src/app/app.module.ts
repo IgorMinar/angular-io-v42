@@ -6,14 +6,12 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { NgioDocviewerComponent } from './ngio-docviewer/ngio-docviewer.component';
-import { NgioSidenavComponent } from './ngio-sidenav/ngio-sidenav.component';
 import { NgioCodeExampleComponent } from './ngio-code-example/ngio-code-example.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NgioDocviewerComponent,
-    NgioSidenavComponent,
     NgioCodeExampleComponent,
   ],
   imports: [
