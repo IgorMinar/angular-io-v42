@@ -18,11 +18,15 @@ export class AppComponent {
 
 
   constructor(private location: Location) {
+    // TODO(i): location should not strip trailing slashes as they are significant.
+    //    Unlike Router, low level api like Location should not have opinions like this.
+    Location.stripTrailingSlash = (v) => v;
+
     this.documentId = Observable.merge<string>(
         // TODO(i): it's odd that Location isn't a hot observable => change to hot?
         Observable.of(location.path()),
         // TODO(i): since location doesn't expose the internal observable it's hard to use it => expose?
-        (location as any)._subject,
+        (location as any)._subject.map(event => event.url),
         // TODO(i): we should make it possible to be notified of all Location changes, including our own
         //    https://github.com/angular/angular/issues/12691
         this.ownLocationChanges
