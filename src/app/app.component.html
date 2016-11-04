@@ -1,3 +1,67 @@
-<h1>
-  {{title}}
-</h1>
+<nav scroll-y-offset-element="scroll-y-offset-element" class="main-nav l-pinned-top l-layer-5"><h1>
+  <a href="/" md-button>Angular <sup>by Google</sup></a></h1>
+  <button aria-label="View Menu"
+          md-button="md-button" class="main-nav-button main-nav-mobile-trigger l-right">Site Menu
+    <span class="icon icon-arrow-drop-down"></span></button>
+  <ul>
+    <li class="l-left"><a class="main-nav-button" href="/features" md-button>Features</a></li>
+    <li class="l-left"><a class="main-nav-button" href="/docs/" md-button>Docs</a></li>
+    <li class="l-left"><a class="main-nav-button" href="/events" md-button>Events</a></li>
+    <li class="l-left"><a class="main-nav-button" href="/news" md-button>News</a></li>
+    <li class="l-right"><a class="main-nav-button" href="/docs/quickstart" md-button>Get
+      Started</a></li>
+  </ul>
+</nav>
+
+<ngio-sidenav></ngio-sidenav>
+<ngio-docviewer [documentId]="documentId | async"></ngio-docviewer>
+
+<div class="main-footer">
+  <nav class="background-midnight grid-fluid">
+    <div class="c3 main-footer-branding">
+      <div class="logo-inverse-large"></div>
+    </div>
+    <div class="c2"><h3 class="text-headline">RESOURCES</h3>
+      <ul class="text-body">
+        <!-- TODO: (ericjim) make a libraries page to showcase all angular libraries-->
+        <!--li <a href="/libraries.html">Libraries</a>-->
+        <li><a href="/about/">About</a></li>
+        <li><a href="/resources/">Books & Training</a></li>
+        <li><a href="/resources/">Tools & Libraries</a></li>
+        <li><a href="/resources/">Community</a></li>
+        <li><a href="/presskit">Press Kit</a></li>
+      </ul>
+    </div>
+    <div class="c2"><h3 class="text-headline">HELP</h3>
+      <ul class="text-body">
+        <li><a href="http://stackoverflow.com/questions/tagged/angular2">Stack Overflow</a></li>
+        <li><a href="https://gitter.im/angular/angular">Gitter</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/angular"> Google Group</a></li>
+        <li><a href="https://github.com/angular/angular/issues"> Report Issues</a></li>
+        <li><a class="footer-feedback" ng-click="appCtrl.openFeedback()"
+               aria-label="Submit feedback on this page"> Site Feedback</a></li>
+      </ul>
+    </div>
+    <div class="c2"><h3 class="text-headline">COMMUNITY</h3>
+      <ul class="text-body">
+        <li><a href="/events.html">Events</a></li>
+        <li><a href="http://www.meetup.com/topics/angularjs/">Meetups</a></li>
+        <li><a href="https://twitter.com/angularjs"> Twitter</a></li>
+        <li><a href="https://github.com/angular/angular"> GitHub</a></li>
+        <li><a href="/contribute.html"> Contribute</a></li>
+      </ul>
+    </div>
+    <div class="c2"><h3 class="text-headline">LANGUAGES</h3>
+      <ul class="text-body">
+        <li><a href="https://angular.cn/">中文版</a></li>
+      </ul>
+    </div>
+  </nav>
+  <footer class="background-midnight">
+    <small class="text-caption">Powered by Google ©2010-2016. Code licensed under an <a
+        href="/license">MIT-style License</a>. Documentation licensed under <a
+        href="http://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+    </small>
+    <a aria-label="View Style Guide" href="/docs/ts/latest/styleguide.html" title="Style Guide"
+       class="styleguide-trigger"><span class="icon-favorite"></span></a></footer>
+</div>
