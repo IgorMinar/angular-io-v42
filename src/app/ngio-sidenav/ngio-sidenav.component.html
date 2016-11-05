@@ -1,0 +1,135 @@
+<nav (window:resize)="onResize($event)"
+		 class="sidenav l-pinned-left l-layer-4 l-offset-nav"
+		 [ngClass]="{'is-visible': isMobileMenuOpen}">
+	<!-- SEARCH BAR-->
+	<header class="sidenav-search st-input-wrapper">
+		<form class="st-input-inner ng-pristine ng-valid">
+			<label class="is-hidden" for="search-io">Search Docs</label>
+			<input autocomplete="off" id="search-io" placeholder="SEARCH DOCS..." style="outline: none;" type="search"/>
+		</form>
+		<button
+			aria-label="View Docs Menu"
+			class="mobile-trigger button md-button md-ink-ripple"
+			type="button"
+			(click)="toggleMobileMenu()">
+			<span class="ng-scope">Docs</span>
+			<span class="icon icon-arrow-drop-down ng-scope"></span>
+		</button>
+	</header>
+	<ul class="sidenav-links">
+		<li class="sidenav-section no-border">
+			<a class="nav-title" [href]="chapter('index').href">{{chapter('index').title}}</a>
+		</li>
+		<li class="sidenav-section-divider"><h3>Core Documentation</h3></li>
+		<li class="sidenav-section">
+      <!--  routerLinkActive="is-selected" -->
+			<a class="nav-title"
+				 [href]="chapter('quickstart').href"
+         [class.is-selected]="chapter('quickstart').isSelected" 
+				 title="{{chapter('quickstart').tooltip}}">{{chapter('quickstart').title}}</a>
+		</li>
+		<li class="sidenav-section">
+			<a class="nav-title is-parent"
+				 [ngClass]="{ 'is-selected': IS_GUIDE_SELECTED() }"
+				 [href]="chapter('guide').href + '/'"
+				 title="{{chapter('guide').tooltip}}">{{chapter('guide').title}}
+				<img class="inline-arrow-down-svg" src="/resources/images/icons/ic_keyboard_arrow_down_black_24px.svg"/>
+			</a>
+			<div class="nav-ordered-lists" [hidden]="!IS_GUIDE_SELECTED()">
+				<ul>
+          <!-- routerLinkActive="is-selected"[routerLinkActiveOptions]="{exact: i === 0}" -->
+					<li *ngFor="let itemInfo of sidenavEntries.guide; let i = index"
+							class="nav-list-item">
+							<a [title]="itemInfo.tooltip" [href]="chapter('guide').href + (i === 0 ? '' : '/' + itemInfo.href + '.html')">{{i+1}}. {{itemInfo.title}}</a>
+					</li>
+				</ul>
+			</div>
+		</li>
+		<li class="sidenav-section no-border">
+      <!-- 	routerLinkActive="is-selected" -->
+			<a class="nav-title"
+				 [href]="chapter('api/').href"
+				 title="{{chapter('api/').tooltip}}">{{chapter('api/').title}}</a>
+		</li>
+		<li class="sidenav-section-divider"><h3>Additional Documentation</h3></li>
+		<li class="sidenav-section">
+      <!-- routerLinkActive="is-selected" -->
+			<a class="nav-title is-parent"
+				 [href]="chapter('tutorial').href + '/'"
+				 title="{{chapter('tutorial').tooltip}}">{{chapter('tutorial').title}}
+				<img class="inline-arrow-down-svg" src="/resources/images/icons/ic_keyboard_arrow_down_black_24px.svg"/>
+			</a>
+			<div class="nav-ordered-lists" [hidden]="isMenuHidden(chapter('tutorial').href)">
+				<ul>
+          <!-- routerLinkActive="is-selected" [routerLinkActiveOptions]="{exact: i === 0}" -->
+					<li *ngFor="let itemInfo of sidenavEntries.tutorial; let i = index" class="nav-list-item">
+						<a [title]="itemInfo.tooltip" [href]="chapter('tutorial').href + (i === 0 ? '' : '/' + itemInfo.href + '.html')">
+              <span *ngIf="i > 0">{{i}}. </span>{{itemInfo.title}}
+            </a>
+					</li>
+				</ul>
+			</div>
+		</li>
+		<li class="sidenav-section">
+			<a class="nav-title is-parent"
+				 [ngClass]="{ 'is-selected': IS_ADVANCED_DOCUMENTATION_SELECTED() }"
+				 [href]="chapter('advanced').href"
+				 title="{{chapter('advanced').tooltip}}">Advanced
+				<img class="inline-arrow-down-svg" src="/resources/images/icons/ic_keyboard_arrow_down_black_24px.svg"/>
+			</a>
+
+			<div class="nav-unordered-lists" [hidden]="!IS_ADVANCED_DOCUMENTATION_SELECTED()">
+				<ul>
+          <!-- routerLinkActive="is-selected" [routerLinkActiveOptions]="{exact: i === 0}" -->
+					<li *ngFor="let itemInfo of sidenavEntries.advanced; let i = index"
+							class="nav-list-item">
+						<a [title]="itemInfo.tooltip" [href]="chapter('guide').href + '/' + itemInfo.href + '.html'">{{itemInfo.title}}</a>
+					</li>
+				</ul>
+			</div>
+		</li>
+		<li class="sidenav-section">
+      <!-- routerLinkActive="is-selected" -->
+			<a class="nav-title is-parent"
+				 [href]="[chapter('cookbook').href]"
+				 title="A collection of recipes for common Angular application scenarios">Cookbook
+				<img class="inline-arrow-down-svg" src="/resources/images/icons/ic_keyboard_arrow_down_black_24px.svg"/>
+			</a>
+			<div class="nav-unordered-lists" [hidden]="isMenuHidden(chapter('cookbook').href)">
+				<ul>
+          <!-- routerLinkActive="is-selected" [routerLinkActiveOptions]="{exact: i === 0}" -->
+					<li *ngFor="let itemInfo of sidenavEntries.cookbook; let i = index" class="nav-list-item">
+						<a [title]="itemInfo.tooltip" [href]="chapter('cookbook').href + (i === 0 ? '' : '/' + itemInfo.href + '.html')">{{itemInfo.title}}</a>
+					</li>
+				</ul>
+			</div>
+		</li>
+	</ul>
+	<!-- Language Select Dropdown -->
+	<nav class="dropdown" (click)="toggleLangMenu()">
+		<button aria-label="Select a version of Angular" class="dropdown-button md-button md-ink-ripple" type="button">
+			<span>{{dropdownItemText(ngLang)}}</span>
+			<span class="icon icon-arrow-drop-down ng-scope"></span>
+		</button>
+		<div class="overlay" [hidden]="!isLangMenuOpen">
+			<div (click)="toggleLangMenu()"></div>
+		</div>
+		<div aria-hidden="true" role="button" tabindex="0"></div>
+		<ul class="dropdown-menu" [ngClass]="{'is-visible': isLangMenuOpen}">
+			<li>
+				<a class="md-button md-ink-ripple" [href]="redirectToMatchingDocLang('ts')">
+					<span>{{ dropdownItemText('ts') }}</span>
+				</a>
+			</li>
+			<li>
+				<a class="md-button md-ink-ripple" [href]="redirectToMatchingDocLang('js')">
+					<span>{{ dropdownItemText('js') }}</span>
+				</a>
+			</li>
+			<li>
+				<a class="md-button md-ink-ripple" [href]="redirectToMatchingDocLang('dart')">
+					<span>{{ dropdownItemText('dart') }}</span></a>
+			</li>
+		</ul>
+	</nav>
+</nav>

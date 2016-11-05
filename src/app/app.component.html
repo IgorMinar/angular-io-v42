@@ -8,15 +8,21 @@
     <li class="l-left"><a class="main-nav-button" href="/docs/" md-button>Docs</a></li>
     <li class="l-left"><a class="main-nav-button" href="/events" md-button>Events</a></li>
     <li class="l-left"><a class="main-nav-button" href="/news" md-button>News</a></li>
-    <li class="l-right"><a class="main-nav-button" href="/docs/quickstart" md-button>Get
+    <li class="l-right"><a class="main-nav-button" href="/docs/ts/latest/quickstart" md-button>Get
       Started</a></li>
   </ul>
 </nav>
 
-<ngio-sidenav></ngio-sidenav>
-<ngio-docviewer [documentId]="documentId | async"></ngio-docviewer>
+<!--div class="root l-offset-nav"-->
+  <div class="l-docs-page page grid-fluid"> <!-- *ngIf="showSideNav | async" -->
+    <ngio-sidenav></ngio-sidenav>
+    <div class="l-offset-side-nav l-offset-nav--mobile">
+      <ngio-docviewer [documentId]="documentId | async"></ngio-docviewer>
+    </div>
+  </div>
+<!--/div-->
 
-<div class="main-footer">
+<div class="main-footer" [ngClass]="{'l-offset-side-nav': true}">
   <nav class="background-midnight grid-fluid">
     <div class="c3 main-footer-branding">
       <div class="logo-inverse-large"></div>
