@@ -3,6 +3,7 @@ import { Location } from '@angular/common';
 import { Observable, Subject } from 'rxjs';
 import 'rxjs/add/operator/concat';
 import 'rxjs/add/operator/mergeMap';
+import { DocInfoService, NgLang } from './doc-info.service';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,7 @@ export class AppComponent {
   private ownLocationChanges = new Subject<string>();
 
 
-  constructor(private location: Location) {
+  constructor(private location: Location, private docInfoSvc: DocInfoService) {
     // TODO(i): location should not strip trailing slashes as they are significant.
     //    Unlike Router, low level api like Location should not have opinions like this.
     Location.stripTrailingSlash = (v) => v;
@@ -32,7 +33,9 @@ export class AppComponent {
         this.ownLocationChanges
     ).map(locationUrl => {
       console.log(`Location url: "${locationUrl}"`);
-      return locationUrl === '' ? '/' : locationUrl;
+      docInfoSvc.update(locationUrl);
+      // TODO: remove temporary URL tweak of trimming out 'ts/latest'
+      return locationUrl === '' ? '/' : locationUrl.replace('ts/latest/', '');
     });
   }
 

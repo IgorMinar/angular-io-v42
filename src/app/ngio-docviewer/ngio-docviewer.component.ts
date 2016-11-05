@@ -38,7 +38,8 @@ export class NgioDocviewerComponent implements DoCheck, OnDestroy {
 
   // TODO(i): convert to passing in the observable so that we can cancel http requests
   @Input() set documentId(documentId) {
-    const documentUrl = `assets/documents${documentId}${documentId.endsWith('/') ? 'index' : ''}.html`;
+    const suffix = documentId.endsWith('/') ? 'index.html' : documentId.endsWith('.html') ? '' : '.html'
+    const documentUrl = `assets/documents${documentId}${suffix}`;
     console.log(`Fetching document: ${documentId} from ${documentUrl}`);
 
     this.http.get(documentUrl).subscribe(
